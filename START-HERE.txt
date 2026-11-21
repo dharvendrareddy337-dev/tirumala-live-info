@@ -1,0 +1,17 @@
+TIRUMALA LIVE INFO — AUTOMATIC UPDATES
+
+This project has the automatic updater and app interface integrated, but it is NOT connected to your provider accounts yet.
+
+Start here:
+1. Open SETUP-AUTOMATIC-UPDATES.md.
+2. Create a Supabase project and run supabase/schema.sql once.
+3. Put the Supabase public URL and publishable/anon key in app-config.js.
+4. Create a Firebase Web app + Cloud Messaging VAPID key and fill the Firebase fields in app-config.js.
+5. Upload the full folder (including the hidden .github folder) to a GitHub repository.
+6. Add the server-only GitHub Actions secrets listed in SETUP-AUTOMATIC-UPDATES.md.
+7. Run the workflow once manually, enable GitHub Pages, then install the HTTPS app on Android.
+8. Tap the bell in the app and enable notifications.
+
+After setup: GitHub checks the public sources every 15 minutes; the app refreshes its snapshot every 5 minutes while open. The schedule can be delayed by GitHub.
+
+The included data/live.json is a dated reference snapshot from 14 Nov 2026, not a live connection. Exact room and locker vacancies, and a Divya Darshan live remaining-token count, are not exposed by the public sources used here; these are not fabricated.

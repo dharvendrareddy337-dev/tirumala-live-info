@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "lastCheckedAt": "2026-11-14T16:40:00+05:30",
+  "isReferenceSnapshot": true,
+  "darshan": {
+    "approxWaitText": "15 H",
+    "queuePosition": "Outside line at Silathoranam",
+    "waitingCompartments": null,
+    "waitingCompartmentsText": "Not numerically reported",
+    "reportedFor": "2026-11-14",
+    "pilgrimsYesterday": 70124,
+    "pilgrimsDate": "2026-11-13",
+    "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+  },
+  "ssd": {
+    "runningSlot": 12,
+    "date": "2026-11-15",
+    "balanceTickets": 0,
+    "sourceUrl": "https://tirumala.org/Current_Booking.aspx",
+    "note": "TTD says live ticket status can change by the time pilgrims reach the counters."
+  },
+  "weather": null,
+  "news": [
+    {
+      "title": "40-GRAM GOLD BRACELET TRACED THROUGH CCTV AND RETURNED TO DEVOTEE",
+      "date": "2026-11-14",
+      "url": "https://news.tirumala.org/",
+      "summary": "TTD reported that a lost bracelet was traced using CCTV and returned to a devotee."
+    },
+    {
+      "title": "ONLY TWO DAYS LEFT FOR SV MUSEUM TRIAL RUN",
+      "date": "2026-11-13",
+      "url": "https://news.tirumala.org/",
+      "summary": "TTD notice about the Sri Venkateswara Museum trial run."
+    }
+  ],
+  "rooms": {
+    "availability": null,
+    "availabilityStatus": "not_published_as_public_live_feed",
+    "publishedGuidance": "TTD says CRO registration starts at 5:00 AM and room allocation depends on availability. Category A includes ₹50 and ₹100 rooms; Category B includes ₹1,000 rooms. Registration/display-board/SMS process applies.",
+    "sourcePublishedOn": "2026-07-19",
+    "sourceUrl": "https://news.tirumala.org/2026/",
+    "lastVerifiedAt": "2026-11-14T16:40:00+05:30"
+  },
+  "lockers": {
+    "availability": null,
+    "availabilityStatus": "not_published_as_public_live_feed",
+    "locations": [
+      "Free Hall",
+      "Narayanagiri sheds",
+      "₹300 Darshan Hall",
+      "Divya Darshan Hall",
+      "Vaikuntham Queue Complex scanning centres",
+      "Kalyanakatta area",
+      "GNC",
+      "TBC",
+      "PAC-4"
+    ],
+    "sourcePublishedOn": "2026-03-17",
+    "sourceUrl": "https://news.tirumala.org/2026/",
+    "lastVerifiedAt": "2026-11-14T16:40:00+05:30"
+  },
+  "sources": {
+    "ttdCurrentBooking": {
+      "ok": true,
+      "url": "https://tirumala.org/Current_Booking.aspx",
+      "checkedAt": "2026-11-14T16:40:00+05:30",
+      "note": "Reference snapshot checked from public TTD page."
+    },
+    "ttdBreakingNews": {
+      "ok": true,
+      "url": "https://news.tirumala.org/category/breaking-news/",
+      "checkedAt": "2026-11-14T16:40:00+05:30",
+      "note": "Reference snapshot checked from public TTD posts."
+    },
+    "ttdNews": {
+      "ok": true,
+      "url": "https://news.tirumala.org/",
+      "checkedAt": "2026-11-14T16:40:00+05:30"
+    },
+    "weather": {
+      "ok": false,
+      "url": "https://open-meteo.com/",
+      "checkedAt": "2026-11-14T16:40:00+05:30",
+      "note": "Weather will populate after the scheduled updater is configured."
+    }
+  },
+  "disclaimer": "Independent information service. Queue estimates are TTD-published approximations, not guarantees. Room and locker vacancies are not provided as public live inventory. Always confirm important decisions with TTD."
+}

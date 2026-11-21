@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#5b1020" />
+  <meta name="description" content="Tirumala Live Info — an independent Tirumala pilgrim companion." />
+  <title>Tirumala Live Info — Your Tirumala Companion</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icon-192.png?v=3" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=3" />
+  <style>
+    :root {
+      --wine:#5b1020; --wine-2:#7d1d2d; --gold:#e9b65a; --gold-soft:#fff1d4;
+      --ink:#25232a; --muted:#77747b; --paper:#f7f4ef; --card:#fffdfa;
+      --line:#eee7de; --green:#23865d; --blue:#2c6ca8; --shadow:0 9px 26px rgba(51,28,25,.075);
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#eee9e3;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:500px;min-height:100vh;margin:0 auto;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 0 50px rgba(35,20,18,.12)}
+    .topbar{height:58px;background:#4b0d1a;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 19px;font-size:12px;letter-spacing:.2px}
+    .topbar .live{display:flex;align-items:center;gap:7px;color:#f8dca5}.dot{width:7px;height:7px;background:#64d39b;border-radius:99px;box-shadow:0 0 0 4px rgba(100,211,155,.13)}
+    .hero{background:linear-gradient(145deg,#4e0c1a 0%,#71182b 58%,#8c2930 100%);color:#fff;padding:19px 19px 25px;position:relative;overflow:hidden;border-radius:0 0 28px 28px}
+    .hero:before{content:"";position:absolute;width:270px;height:270px;border:1px solid rgba(255,220,158,.16);border-radius:50%;right:-105px;top:-140px;box-shadow:0 0 0 24px rgba(255,220,158,.035),0 0 0 50px rgba(255,220,158,.025)}
+    .brandrow{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+    .brand{display:flex;align-items:center;gap:11px}
+    .brandmark{width:46px;height:46px;border-radius:14px;background:#5b1020;display:block;overflow:hidden;flex:0 0 46px;box-shadow:0 5px 16px rgba(0,0,0,.18)}.brandmark img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand h1{margin:0;font-size:16px;font-weight:800;letter-spacing:.1px}.brand p{margin:2px 0 0;font-size:10px;color:#f3d9cf;letter-spacing:1.2px;text-transform:uppercase}
+    .header-actions{display:flex;gap:8px;align-items:center}.roundbtn{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:white;border-radius:13px;width:38px;height:38px;display:grid;place-items:center;font-size:17px}
+    .locationline{display:flex;align-items:center;gap:6px;color:#f6d9c7;font-size:12px;margin-top:20px;position:relative;z-index:1}.locationline strong{color:white;font-weight:650}
+    .hero h2{font-size:26px;line-height:1.17;margin:8px 0 5px;max-width:340px;letter-spacing:-.7px;position:relative;z-index:1}.hero .sub{font-size:12px;color:#f3d9cf;margin:0;position:relative;z-index:1}
+    .herofoot{display:flex;justify-content:space-between;align-items:center;margin-top:17px;position:relative;z-index:1}.today{font-size:11px;color:#f1d8d0}.today b{color:#fff}.pill{font-size:10px;border-radius:99px;padding:7px 10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#ffe4af}
+    .main{padding:17px 16px 102px}
+    .sectionhead{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 11px}.sectionhead h3{margin:0;font-size:15px;letter-spacing:-.2px}.sectionhead button{background:none;border:0;color:var(--wine-2);font-weight:700;font-size:11px}
+    .demo-note{display:flex;gap:8px;align-items:flex-start;background:#fff5df;border:1px solid #f3dfb6;padding:10px 12px;border-radius:13px;color:#77551c;font-size:10px;line-height:1.45;margin-bottom:13px}.demo-note .i{font-size:14px;line-height:1}
+    .queue-card{background:linear-gradient(125deg,#9b2635,#681324 85%);color:#fff;border-radius:20px;padding:16px 16px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .queue-card:after{content:"ॐ";position:absolute;right:12px;top:-18px;font-size:118px;line-height:1;color:rgba(255,255,255,.055);font-family:serif}
+    .q-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.05px;color:#f4d4c8}.q-live{display:flex;gap:6px;align-items:center;font-size:9px;padding:5px 8px;border-radius:99px;background:rgba(255,255,255,.13);color:#fce5b5}
+    .q-time{display:flex;align-items:flex-end;gap:10px;margin:11px 0 12px;position:relative;z-index:1}.q-time strong{font-size:37px;letter-spacing:-1.7px;line-height:1}.q-time span{font-size:11px;color:#f5d6ca;padding-bottom:4px}
+    .q-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative;z-index:1}.q-stat{border-top:1px solid rgba(255,255,255,.19);padding-top:9px}.q-stat b{display:block;font-size:14px}.q-stat small{font-size:9px;color:#edc9c1}
+    .queue-bottom{margin-top:12px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}.queue-bottom small{font-size:9px;color:#f2d2ca}.lightbtn{background:#fff;color:var(--wine);border:0;border-radius:10px;padding:9px 12px;font-size:10px;font-weight:800}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .service{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px 12px;min-height:116px;box-shadow:0 4px 15px rgba(45,30,25,.035);text-align:left;color:var(--ink);position:relative;overflow:hidden;transition:transform .16s,box-shadow .16s}
+    .service:active{transform:scale(.98)}.service .ico{width:35px;height:35px;border-radius:12px;display:grid;place-items:center;font-size:18px;margin-bottom:10px}.service strong{display:block;font-size:12px;margin-bottom:4px}.service small{font-size:10px;color:var(--muted);line-height:1.35;display:block}.service .arrow{position:absolute;right:12px;top:15px;color:#aaa;font-size:14px}
+    .c-wine{background:#f7e8eb;color:#86263a}.c-gold{background:#fff0d6;color:#9c681b}.c-green{background:#e2f3e9;color:#26794e}.c-blue{background:#e5effb;color:#326eaa}.c-violet{background:#eee8fb;color:#6a4aa2}.c-orange{background:#fbebdc;color:#ac6428}
+    .notice-card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px;margin-top:14px}.notice-head{display:flex;align-items:center;justify-content:space-between}.notice-head strong{font-size:12px}.notice-item{display:flex;gap:10px;align-items:flex-start;padding-top:12px;margin-top:10px;border-top:1px solid var(--line)}.notice-icon{width:31px;height:31px;border-radius:10px;background:#fff0d6;display:grid;place-items:center;font-size:15px;flex-shrink:0}.notice-item b{font-size:11px;display:block;margin:1px 0 4px}.notice-item p{font-size:10px;color:var(--muted);line-height:1.4;margin:0}.tag{font-size:9px;border-radius:99px;padding:4px 7px;background:#f7eee4;color:#8a5b2b;white-space:nowrap}
+    .quickrow{display:flex;gap:9px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.quickrow::-webkit-scrollbar{display:none}.quick{min-width:108px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px;text-align:left}.quick span{font-size:19px;display:block;margin-bottom:6px}.quick b{font-size:10px;display:block}.quick small{font-size:9px;color:var(--muted)}
+    .bottomnav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);padding:9px 8px calc(9px + env(safe-area-inset-bottom));background:rgba(255,253,250,.96);backdrop-filter:blur(15px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -8px 26px rgba(40,25,20,.06)}
+    .navitem{border:0;background:transparent;color:#99929a;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 2px;font-size:9px;font-weight:650}.navitem .ni{font-size:18px;line-height:1.1}.navitem.active{color:var(--wine)}.navitem.active .ni{background:#f5e4e7;border-radius:11px;padding:5px 13px;margin-top:-5px}
+    .pagehead{padding:4px 2px 15px}.pagehead h2{margin:0;font-size:22px;letter-spacing:-.6px}.pagehead p{margin:5px 0 0;color:var(--muted);font-size:11px;line-height:1.5}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:11px;box-shadow:0 4px 16px rgba(45,30,25,.035)}.panel h3{font-size:13px;margin:0 0 10px}.muted{color:var(--muted)}.small{font-size:10px;line-height:1.5}
+    .tabs{display:flex;gap:6px;background:#eee8e0;padding:4px;border-radius:12px;margin-bottom:13px}.tab{border:0;background:transparent;border-radius:9px;flex:1;padding:9px 5px;font-size:10px;font-weight:700;color:#777}.tab.active{background:#fff;color:var(--wine);box-shadow:0 2px 7px rgba(40,20,20,.08)}
+    .metricrow{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.metric{padding:12px;border-radius:14px;background:#faf6f0}.metric small{font-size:9px;color:var(--muted);display:block}.metric b{font-size:18px;display:block;margin:5px 0 2px}.metric em{font-style:normal;font-size:9px;color:var(--green)}
+    .progress{height:8px;background:#f0e9e3;border-radius:99px;overflow:hidden;margin:9px 0 5px}.progress span{display:block;height:100%;width:62%;background:linear-gradient(90deg,#d38c42,#8e2837);border-radius:99px}
+    .rowline{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:11px}.rowline:last-child{border-bottom:0}.rowline span:first-child{color:var(--muted)}.rowline b{text-align:right}
+    .btn-primary,.btn-outline{width:100%;border-radius:12px;padding:12px;border:0;font-weight:800;font-size:11px}.btn-primary{background:var(--wine);color:#fff}.btn-outline{background:#fff;border:1px solid #e7d8d7;color:var(--wine)}.btn-inline{border:0;background:#f7e9eb;color:var(--wine);padding:9px 12px;border-radius:10px;font-size:10px;font-weight:800}
+    .inputrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field label{display:block;font-size:10px;color:var(--muted);margin:0 0 6px}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff;color:var(--ink);font-size:11px;outline:none}.field input:focus,.field select:focus{border-color:#b86e77;box-shadow:0 0 0 3px #f6e7e9}
+    .check{display:flex;gap:9px;align-items:center;font-size:11px;padding:8px 0;border-bottom:1px solid var(--line)}.check:last-child{border:0}.check input{accent-color:var(--wine);width:16px;height:16px}
+    .sloka{background:linear-gradient(135deg,#fff5df,#f8e9e2);border:1px solid #f0dfc7;border-radius:18px;padding:16px;text-align:center}.sloka .om{font-size:23px;color:#a76c22}.sloka h3{font-family:Georgia,serif;color:#6c1a2b;font-size:16px;margin:8px 0}.sloka p{font-family:Georgia,serif;font-size:12px;line-height:1.7;color:#68504b;margin:0}.sloka small{display:block;margin-top:10px;font-size:9px;color:#8e6d5d}
+    .listcard{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.listcard:last-child{border:0}.listico{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:#f7e9eb;font-size:19px;flex-shrink:0}.listcard strong{font-size:11px;display:block}.listcard small{font-size:9px;color:var(--muted);display:block;margin-top:3px}.listcard .end{margin-left:auto;color:#9c8587;font-size:17px}
+    .disclaimer{border:1px solid #eedfbf;background:#fff8e8;border-radius:13px;padding:12px;font-size:10px;color:#765a32;line-height:1.5;margin-top:12px}
+    .screen{display:none;animation:fade .18s ease}.screen.active{display:block}@keyframes fade{from{opacity:.55;transform:translateY(3px)}to{opacity:1;transform:none}}
+    .overlay{display:none;position:fixed;inset:0;z-index:50;background:rgba(26,11,15,.45);align-items:flex-end;justify-content:center}.overlay.show{display:flex}.sheet{width:min(500px,100%);background:#fffdfa;border-radius:25px 25px 0 0;padding:20px 18px calc(23px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;box-shadow:0 -15px 45px rgba(0,0,0,.2);animation:rise .2s ease}.sheettop{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.sheettop h3{margin:0;font-size:17px}.xbtn{border:0;background:#f2ece7;border-radius:10px;width:31px;height:31px;font-size:18px;color:#6e5557}.sheet p{font-size:11px;line-height:1.6;color:#716b70}.sheet a{color:var(--wine);font-weight:700}@keyframes rise{from{transform:translateY(50px);opacity:.5}to{transform:none;opacity:1}}
+    .toast{position:fixed;z-index:70;bottom:93px;left:50%;transform:translate(-50%,15px);background:#28141a;color:white;padding:11px 15px;border-radius:12px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap;max-width:90vw}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .footnote{text-align:center;font-size:9px;color:#9b9292;padding:12px 0 0}
+    .live-meta{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:0 1px 12px;padding:10px 12px;background:#fffdfa;border:1px solid var(--line);border-radius:13px;font-size:10px;color:var(--muted)}
+    .live-meta strong{color:var(--wine)}.live-meta button{border:0;border-radius:9px;background:#f6e8e9;color:var(--wine);padding:7px 9px;font-size:10px;font-weight:800}
+    .source-line{font-size:9px;color:#f4d7ca;margin-top:7px;position:relative;z-index:1}.source-line a{color:#ffe4af;text-decoration:underline}
+    .data-foot{font-size:9px;color:var(--muted);line-height:1.45;margin-top:9px}.data-foot a{color:var(--wine-2);font-weight:700}
+    .feed-card{background:#fffdfa;border:1px solid var(--line);border-radius:17px;padding:13px;margin-top:13px}.feed-item{padding:11px 0;border-bottom:1px solid var(--line)}.feed-item:last-child{border-bottom:0;padding-bottom:0}.feed-item:first-child{padding-top:0}.feed-item b{font-size:11px;display:block;line-height:1.4}.feed-item p{font-size:10px;color:var(--muted);line-height:1.45;margin:5px 0}.feed-item a{font-size:10px;color:var(--wine-2);font-weight:800;text-decoration:none}
+    .availability-note{background:#fff5df;border:1px solid #f3dfb6;border-radius:13px;padding:12px;color:#77551c;font-size:10px;line-height:1.5}
+    .weather-card{background:linear-gradient(135deg,#e7f1fa,#fffdfa);border:1px solid #d9e7f2;border-radius:16px;padding:12px;margin-top:13px}.weather-card b{font-size:13px}.weather-card span{font-size:10px;color:var(--muted)}
+    .push-primary{display:block;width:100%;padding:12px;border:0;border-radius:12px;background:var(--wine);color:white;font-size:11px;font-weight:800;margin:12px 0 6px}
+    .update-list{margin:0;padding-left:16px}.update-list li{margin:4px 0}
+    @media(min-width:700px){body{padding:20px 0}.app{border-radius:28px;min-height:calc(100vh - 40px)}.bottomnav{bottom:20px;border-radius:0 0 28px 28px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar"><span>శ్రీ వేంకటేశాయ నమః</span><span class="live"><i class="dot"></i> PILGRIM COMPANION</span></div>
+  <header class="hero">
+    <div class="brandrow">
+      <div class="brand"><div class="brandmark"><img src="assets/app-icon.png" alt="Tirumala Live Info logo: Sudarshana Chakra, Vaishnava Namam and Shankha" /></div><div><h1>Tirumala Live Info</h1><p>Your Tirumala companion</p></div></div>
+      <div class="header-actions"><button class="roundbtn" id="langBtn" aria-label="Switch language">తె</button><button class="roundbtn" id="bellBtn" aria-label="Notifications">♧</button></div>
+    </div>
+    <div class="locationline">⌖ <span>HOLY HILLS</span> · <strong>Tirumala, Andhra Pradesh</strong></div>
+    <h2 id="heroTitle">Plan your darshan.<br/>Travel with peace.</h2>
+    <p class="sub" id="heroSub">Helpful information for every step of your Tirumala visit.</p>
+    <div class="herofoot"><span class="today" id="todayLabel">Today · <b>Saturday, 14 November</b></span><span class="pill">🙏 Govinda! Govinda!</span></div>
+  </header>
+
+  <main class="main">
+    <!-- HOME -->
+    <section class="screen active" id="screen-home">
+      <div class="live-meta" aria-live="polite"><span><strong id="feedStatus">Connecting to public information…</strong><br/><span id="feedUpdated">Waiting for first update</span></span><button id="refreshBtn" type="button">↻ Refresh</button></div>
+      <div class="sectionhead"><h3>Darshan at a glance</h3><button data-go="darshan">View details →</button></div>
+      <div class="queue-card">
+        <div class="q-top"><span class="eyebrow">Sarva Darshan · TTD report</span><span class="q-live"><i class="dot"></i><span id="queueStatus">CHECKING</span></span></div>
+        <div class="q-time"><strong id="queueWait">—</strong><span>Approx. wait without SSD tokens</span></div>
+        <div class="q-stats"><div class="q-stat"><b id="queuePosition">—</b><small>Queue position</small></div><div class="q-stat"><b id="compartmentStatus">—</b><small id="compartmentLabel">Waiting compartments</small></div><div class="q-stat"><b id="darshanReportDate">—</b><small>TTD report date</small></div></div>
+        <div class="queue-bottom"><small>TTD-published estimate · not a guarantee</small><button class="lightbtn" data-go="darshan">Check darshan</button></div>
+        <div class="source-line">Source: <a href="https://news.tirumala.org/category/breaking-news/" target="_blank" rel="noopener">TTD Breaking News ↗</a></div>
+      </div>
+      <div class="weather-card" id="weatherCard" hidden><b>🌤 Tirumala weather</b><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><strong id="weatherTemp">—</strong><span id="weatherCondition">—</span></div><div class="data-foot" id="weatherUpdated"></div></div>
+
+      <div class="sectionhead" style="margin-top:20px"><h3>Everything for your yatra</h3><button data-go="more">See all →</button></div>
+      <div class="grid2">
+        <button class="service" data-go="darshan"><span class="ico c-wine">🛕</span><span class="arrow">↗</span><strong>Darshan & queue</strong><small>Waiting status, entry types and guidance</small></button>
+        <button class="service" data-go="tokens"><span class="ico c-gold">🎟️</span><span class="arrow">↗</span><strong>SSD / DD tokens</strong><small>Quota, release info and token guide</small></button>
+        <button class="service" data-go="rooms"><span class="ico c-green">🛏️</span><span class="arrow">↗</span><strong>Rooms & lockers</strong><small>Accommodation information</small></button>
+        <button class="service" data-go="travel"><span class="ico c-blue">🚌</span><span class="arrow">↗</span><strong>Travel & routes</strong><small>Reach Tirupati and Tirumala</small></button>
+        <button class="service" data-go="planner"><span class="ico c-violet">🗓️</span><span class="arrow">↗</span><strong>Plan your trip</strong><small>Dates, checklist and itinerary</small></button>
+        <button class="service" data-go="bhakti"><span class="ico c-orange">🙏</span><span class="arrow">↗</span><strong>Bhakti library</strong><small>Slokas and daily devotion</small></button>
+      </div>
+
+      <div class="sectionhead" style="margin-top:20px"><h3>Quick access</h3><button data-go="more">Explore →</button></div>
+      <div class="quickrow">
+        <button class="quick" data-go="seva"><span>🪔</span><b>Seva timings</b><small>Daily & special</small></button>
+        <button class="quick" data-go="updates"><span>📰</span><b>TTD updates</b><small>News & notices</small></button>
+        <button class="quick" data-go="planner"><span>✅</span><b>Trip checklist</b><small>Get prepared</small></button>
+        <button class="quick" data-go="more"><span>❔</span><b>Help & FAQ</b><small>Useful answers</small></button>
+      </div>
+
+      <div class="panel"><h3>Previous day's pilgrim footfall</h3><div class="metricrow"><div class="metric"><small>Total pilgrims</small><b id="pilgrimStats">—</b><em id="pilgrimStatsDate">TTD daily report</em></div><div class="metric"><small>Source status</small><b id="dailyFootfallStatus">Waiting</b><em>Published by TTD</em></div></div></div>
+      <div class="feed-card"><div class="notice-head"><strong>Latest official TTD updates</strong><span class="tag" id="newsCount">Loading</span></div><div id="homeNews"><div class="feed-item"><b>Fetching official announcements…</b></div></div></div>
+      <div class="data-foot">Updates are collected from public TTD pages. Room and locker vacancy counts are not part of the public data feed.</div>
+      <div class="footnote">Independent information prototype · Not an official TTD application</div>
+    </section>
+
+    <!-- DARSHAN -->
+    <section class="screen" id="screen-darshan">
+      <div class="pagehead"><h2>Darshan information</h2><p>Understand the main darshan options and check verified updates before starting your journey.</p></div>
+      <div class="availability-note">The estimate below is taken from TTD's latest published queue report for Sarva Darshan without SSD tokens. It may change quickly. It is not an official guarantee or a personalised wait-time prediction.</div>
+      <div class="tabs" id="darshanTabs"><button class="tab active" data-tab="sarva">Sarva Darshan</button><button class="tab" data-tab="special">₹300 Entry</button><button class="tab" data-tab="divya">Divya Darshan</button></div>
+      <div class="panel" id="darshanInfo">
+        <h3 id="darshanName">Sarva Darshan (free)</h3><p class="small muted" id="darshanDesc">General entry for pilgrims. Availability and queue movement depend on the day's arrangements.</p>
+        <div class="metricrow" style="margin-top:12px"><div class="metric"><small>TTD approximate wait</small><b id="waitValue">—</b><em id="waitAge">Waiting for source</em></div><div class="metric"><small>Queue status / location</small><b id="crowdValue">—</b><em id="queueAge">Not reported</em></div></div>
+        <div class="data-foot">Last checked by updater: <span id="darshanChecked">—</span> · <a href="https://news.tirumala.org/category/breaking-news/" target="_blank" rel="noopener">Open TTD source ↗</a></div>
+      </div>
+      <div class="panel"><h3>Before you enter</h3>
+        <div class="rowline"><span>Check current instructions</span><b>TTD official website ↗</b></div>
+        <div class="rowline"><span>Keep ready</span><b>Ticket / valid ID</b></div>
+        <div class="rowline"><span>Dress code</span><b>Follow TTD guidelines</b></div>
+        <div class="rowline"><span>Timings / reporting</span><b>As printed on ticket</b></div>
+        <button class="btn-primary" style="margin-top:10px" data-external="https://www.tirumala.org/">Open official TTD website ↗</button>
+      </div>
+      <div class="disclaimer">This app is an independent pilgrim information concept. Darshan access, timings, ticket quotas and rules are determined by TTD. Always rely on official TTD announcements.</div>
+    </section>
+
+    <!-- TOKENS -->
+    <section class="screen" id="screen-tokens">
+      <div class="pagehead"><h2>SSD / DD token tracker</h2><p>A simple place to understand token categories and follow official release information.</p></div>
+      <div class="availability-note">TTD's public page publishes the SSD running slot and balance-ticket figure. It also warns that the counter position can change before a pilgrim reaches the counter. This is not a guaranteed reservation.</div>
+      <div class="panel">
+        <div class="sectionhead" style="margin:0 0 9px"><h3>Latest SSD status</h3><span class="tag" id="ssdStatus">Checking source</span></div>
+        <div class="metricrow"><div class="metric"><small>Running slot</small><b id="ssdSlot">—</b><em id="ssdDate">Date not reported</em></div><div class="metric"><small>Balance tickets</small><b id="ssdBalance">—</b><em id="ssdBalanceNote">Not checked</em></div></div>
+        <p class="small muted" id="ssdNote" style="margin:12px 0 0">Waiting for the public TTD page.</p>
+        <div class="data-foot">Source: <a href="https://tirumala.org/Current_Booking.aspx" target="_blank" rel="noopener">TTD Current Booking ↗</a></div>
+      </div>
+      <div class="panel"><h3>Divya Darshan (DD) guidance</h3><p class="small muted">TTD's published FAQ says DD tokens are available round-the-clock at Galigorpuram footpath and from 05:00 AM to 06:00 PM at Srivari Mettu footpath. This is published guidance, not a live token counter. Confirm current arrangements before starting the footpath.</p><div class="data-foot"><a href="https://www.tirumala.org/Downloads/MoreFaqs.pdf" target="_blank" rel="noopener">TTD FAQ (PDF) ↗</a></div></div>
+      <div class="panel"><h3>Token types</h3>
+        <div class="listcard"><div class="listico">🎫</div><div><strong>SSD — Slotted Sarva Darshan</strong><small>Free darshan token with an allotted reporting slot, when issued by TTD.</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🚶</div><div><strong>Divya Darshan (DD)</strong><small>Darshan facility for eligible footpath pilgrims, subject to TTD rules.</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">💳</div><div><strong>Special Entry Darshan</strong><small>Paid booking facility. Use only the official TTD portal for booking.</small></div><span class="end">›</span></div>
+      </div>
+      <button class="btn-primary" data-external="https://ttdevasthanams.ap.gov.in/">Check official TTD bookings ↗</button>
+    </section>
+
+    <!-- ROOMS -->
+    <section class="screen" id="screen-rooms">
+      <div class="pagehead"><h2>Accommodation</h2><p>Useful guidance for rooms, rest houses and lockers at Tirumala.</p></div>
+      <div class="availability-note">TTD does not publish public live room-vacancy counts in the sources connected to this app. We can automatically refresh published room rules and announcements, but current vacancy must be checked at TTD counters or its official booking portal.</div>
+      <div class="panel"><h3>Accommodation options</h3>
+        <div class="listcard"><div class="listico">🏨</div><div><strong>Advance reservation</strong><small>Check dates and eligible accommodation through official TTD services.</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🛌</div><div><strong>Current booking / CRO</strong><small id="roomGuidance">TTD's published guidance: CRO registration opens at 5:00 AM while rooms are available. Category A: ₹50 / ₹100; Category B: ₹1,000. Check the counter display board and SMS.</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🧳</div><div><strong>Lockers & luggage</strong><small>Confirm available facilities and rules at the location.</small></div><span class="end">›</span></div>
+      </div>
+      <div class="panel"><h3>Live room inventory</h3><div class="metricrow"><div class="metric"><small>Vacant rooms</small><b>Not published</b><em>TTD counter board</em></div><div class="metric"><small>Last public guidance</small><b>19 Jul 2026</b><em>Process, not vacancy</em></div></div><p class="small muted">The public TTD FAQ states that current room availability is displayed on digital boards at CRO, Kousthubam, MBC-34 and SPGH. Rooms are allotted first-come-first-served.</p><div class="data-foot"><a href="https://news.tirumala.org/" target="_blank" rel="noopener">TTD accommodation announcements ↗</a> · <a href="https://www.tirumala.org/Downloads/MoreFaqs.pdf" target="_blank" rel="noopener">TTD FAQ ↗</a></div></div>
+      <div class="panel"><h3>Luggage & locker information</h3><p class="small muted">TTD publishes locations and service guidance, but no public live vacancy / capacity counter for lockers. Confirm at the service desk before leaving belongings.</p><div class="rowline"><span>Published service points</span><b id="lockerLocationCount">Multiple locations</b></div><ul class="update-list small muted" id="lockerLocations"><li>Free Hall and Narayanagiri sheds</li><li>₹300 Darshan Hall and Divya Darshan Hall</li><li>Vaikuntham Queue Complex scanning centres</li><li>GNC, TBC and PAC-4 delivery points</li></ul><div class="data-foot"><a href="https://news.tirumala.org/" target="_blank" rel="noopener">TTD luggage-service announcements ↗</a></div></div>
+      <button class="btn-primary" data-external="https://ttdevasthanams.ap.gov.in/">Open official TTD accommodation ↗</button>
+    </section>
+
+    <!-- TRAVEL -->
+    <section class="screen" id="screen-travel">
+      <div class="pagehead"><h2>Travel & routes</h2><p>Plan your approach to Tirupati and the hill journey to Tirumala.</p></div>
+      <div class="panel"><h3>Common travel connections</h3>
+        <div class="listcard"><div class="listico">🚆</div><div><strong>Tirupati Railway Station</strong><small>Rail connection for pilgrims arriving by train.</small></div><span class="end">↗</span></div>
+        <div class="listcard"><div class="listico">🚌</div><div><strong>Tirupati Bus Station</strong><small>Check current bus services to Tirumala with the operator.</small></div><span class="end">↗</span></div>
+        <div class="listcard"><div class="listico">🚕</div><div><strong>Road journey</strong><small>Use approved routes and follow hill-road safety instructions.</small></div><span class="end">↗</span></div>
+      </div>
+      <div class="panel"><h3>Quick route planner</h3>
+        <div class="field"><label for="origin">Starting point</label><input id="origin" placeholder="e.g. Chennai, Bengaluru, Hyderabad" /></div>
+        <div class="inputrow" style="margin-top:10px"><div class="field"><label for="travelDate">Travel date</label><input id="travelDate" type="date" /></div><div class="field"><label for="travellers">Travellers</label><select id="travellers"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5+</option></select></div></div>
+        <button class="btn-primary" style="margin-top:13px" id="routeBtn">Prepare my travel checklist</button>
+      </div>
+      <div class="disclaimer">Travel time, bus frequency and road conditions change. Confirm directly with the transport provider before departure.</div>
+    </section>
+
+    <!-- PLANNER -->
+    <section class="screen" id="screen-planner">
+      <div class="pagehead"><h2>Plan your yatra</h2><p>Build a simple checklist so you don't miss the important things.</p></div>
+      <div class="panel"><h3>Your trip details</h3><div class="inputrow"><div class="field"><label for="planDate">Planned date</label><input id="planDate" type="date" /></div><div class="field"><label for="planPeople">Pilgrims</label><select id="planPeople"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5+</option></select></div></div><div class="field" style="margin-top:10px"><label for="planType">Darshan plan</label><select id="planType"><option>Not decided yet</option><option>Sarva Darshan</option><option>Special Entry Darshan</option><option>Divya Darshan</option><option>Seva</option></select></div></div>
+      <div class="panel"><div class="sectionhead" style="margin:0 0 8px"><h3>My preparation checklist</h3><span class="tag" id="checkCount">0 / 6 done</span></div>
+        <label class="check"><input type="checkbox" class="tripcheck" /> Check the official darshan / seva booking status</label>
+        <label class="check"><input type="checkbox" class="tripcheck" /> Confirm accommodation or stay arrangements</label>
+        <label class="check"><input type="checkbox" class="tripcheck" /> Keep booking confirmation and valid ID ready</label>
+        <label class="check"><input type="checkbox" class="tripcheck" /> Plan transport to Tirupati and Tirumala</label>
+        <label class="check"><input type="checkbox" class="tripcheck" /> Review current dress code and entry instructions</label>
+        <label class="check"><input type="checkbox" class="tripcheck" /> Pack medicines, essentials and water as permitted</label>
+      </div>
+      <button class="btn-outline" id="resetChecks">Reset checklist</button>
+    </section>
+
+    <!-- BHAKTI -->
+    <section class="screen" id="screen-bhakti">
+      <div class="pagehead"><h2>Bhakti corner</h2><p>A calm space for daily devotion and prayer.</p></div>
+      <div class="sloka"><div class="om">ॐ</div><h3>Om Namo Venkatesaya</h3><p>శ్రీ వేంకటేశాయ నమః</p><small>A devotional greeting to begin your day</small></div>
+      <div class="sectionhead" style="margin-top:19px"><h3>Devotional library</h3><span class="tag">Reading list</span></div>
+      <div class="panel">
+        <div class="listcard"><div class="listico">📜</div><div><strong>Venkateswara Suprabhatam</strong><small>Morning prayer · Sanskrit</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🙏</div><div><strong>Vishnu Sahasranamam</strong><small>Devotional hymn · Sanskrit</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🌼</div><div><strong>Govinda Namalu</strong><small>Names of Lord Venkateswara</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🪔</div><div><strong>Sri Venkateswara Ashtottara</strong><small>108 names · Prayer</small></div><span class="end">›</span></div>
+      </div>
+      <p class="small muted">Full lyrics, meanings and audio can be added in a later content release using properly licensed or public-domain material.</p>
+    </section>
+
+    <!-- UPDATES -->
+    <section class="screen" id="screen-updates">
+      <div class="pagehead"><h2>Updates & announcements</h2><p>Important notices should always be checked against the official source.</p></div>
+      <div class="availability-note">Official TTD News is checked automatically by the scheduled updater. Tap an item to read the source article on TTD's website.</div>
+      <div class="panel"><div class="sectionhead" style="margin:0 0 8px"><h3>Latest official announcements</h3><span class="tag" id="updatesCount">—</span></div><div id="updatesList"><p class="small muted">Loading official TTD announcements…</p></div></div>
+      <div class="panel"><h3>Data sources</h3><div class="rowline"><span>TTD Current Booking</span><b id="srcTtdCurrent">—</b></div><div class="rowline"><span>TTD Breaking News</span><b id="srcTtdBreaking">—</b></div><div class="rowline"><span>TTD News</span><b id="srcTtdNews">—</b></div><div class="rowline"><span>Weather</span><b id="srcWeather">—</b></div><p class="small muted">Source status shows the last successful scheduled collection. A failed check never replaces an older verified value with a guessed value.</p></div>
+      <button class="btn-primary" data-external="https://www.tirumala.org/">Read official TTD updates ↗</button>
+    </section>
+
+    <!-- SEVA -->
+    <section class="screen" id="screen-seva">
+      <div class="pagehead"><h2>Seva & temple timings</h2><p>Reference section for daily sevas and special services.</p></div>
+      <div class="demo-note"><span class="i">ⓘ</span><span>Schedules can vary by date and temple administration. Confirm the specific day on TTD's official site.</span></div>
+      <div class="panel"><h3>Explore seva information</h3>
+        <div class="listcard"><div class="listico">🌅</div><div><strong>Daily sevas</strong><small>Regular worship services and details.</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🌺</div><div><strong>Arjitha sevas</strong><small>Ticketed services and booking guidance.</small></div><span class="end">›</span></div>
+        <div class="listcard"><div class="listico">🗓️</div><div><strong>Annual / periodical sevas</strong><small>Special observances and schedules.</small></div><span class="end">›</span></div>
+      </div>
+      <button class="btn-primary" data-external="https://ttdevasthanams.ap.gov.in/">Check official seva bookings ↗</button>
+    </section>
+
+    <!-- MORE -->
+    <section class="screen" id="screen-more">
+      <div class="pagehead"><h2>More services</h2><p>Helpful links and information for your visit.</p></div>
+      <div class="panel">
+        <div class="listcard" data-go="darshan"><div class="listico">🛕</div><div><strong>Darshan information</strong><small>Entry types and guidance</small></div><span class="end">›</span></div>
+        <div class="listcard" data-go="tokens"><div class="listico">🎟️</div><div><strong>SSD / DD tokens</strong><small>Token categories and status screen</small></div><span class="end">›</span></div>
+        <div class="listcard" data-go="rooms"><div class="listico">🛏️</div><div><strong>Accommodation</strong><small>Rooms, rest houses and lockers</small></div><span class="end">›</span></div>
+        <div class="listcard" data-go="travel"><div class="listico">🚌</div><div><strong>Travel guide</strong><small>Routes and trip checklist</small></div><span class="end">›</span></div>
+        <div class="listcard" data-go="seva"><div class="listico">🪔</div><div><strong>Seva information</strong><small>Daily and special services</small></div><span class="end">›</span></div>
+        <div class="listcard" data-go="updates"><div class="listico">📰</div><div><strong>News and updates</strong><small>Official notices</small></div><span class="end">›</span></div>
+        <div class="listcard" id="faqOpen"><div class="listico">❔</div><div><strong>Frequently asked questions</strong><small>General pilgrim guidance</small></div><span class="end">›</span></div>
+      </div>
+      <div class="panel"><h3>About Tirumala Live Info</h3><p class="small muted">An independent concept for helping pilgrims organise their Tirumala visit. This is not an official TTD app and is not affiliated with Tirumala Tirupati Devasthanams.</p><button class="btn-outline" data-external="https://www.tirumala.org/">Visit TTD official website ↗</button></div>
+    </section>
+  </main>
+
+  <nav class="bottomnav" aria-label="Main navigation">
+    <button class="navitem active" data-go="home"><span class="ni">⌂</span><span>Home</span></button>
+    <button class="navitem" data-go="darshan"><span class="ni">🛕</span><span>Darshan</span></button>
+    <button class="navitem" data-go="planner"><span class="ni">🗓</span><span>My Yatra</span></button>
+    <button class="navitem" data-go="bhakti"><span class="ni">🙏</span><span>Bhakti</span></button>
+    <button class="navitem" data-go="more"><span class="ni">☷</span><span>More</span></button>
+  </nav>
+</div>
+
+<div class="overlay" id="modal"><div class="sheet"><div class="sheettop"><h3 id="modalTitle">Information</h3><button class="xbtn" id="modalClose" aria-label="Close">×</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast">Saved</div>
+<script src="./app-config.js"></script>
+<script>
+  const screens = [...document.querySelectorAll('.screen')];
+  const navItems = [...document.querySelectorAll('.navitem')];
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function toast(message){ toastEl.textContent=message; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>toastEl.classList.remove('show'),2200); }
+  function go(name){
+    const target=document.getElementById('screen-'+name);
+    if(!target){return;}
+    screens.forEach(s=>s.classList.toggle('active',s===target));
+    navItems.forEach(n=>n.classList.toggle('active',n.dataset.go===name || (name==='tokens'&&n.dataset.go==='darshan')));
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.addEventListener('click',e=>{
+    const goEl=e.target.closest('[data-go]'); if(goEl){go(goEl.dataset.go);return;}
+    const ext=e.target.closest('[data-external]'); if(ext){window.open(ext.dataset.external,'_blank','noopener');return;}
+  });
+  // date label
+  const now=new Date();
+  document.getElementById('todayLabel').innerHTML='Today · <b>'+new Intl.DateTimeFormat('en-IN',{weekday:'long',day:'numeric',month:'long'}).format(now)+'</b>';
+  // Darshan tabs
+  const darshanData={
+    sarva:{name:'Sarva Darshan (free)',desc:'General entry for pilgrims. The wait figure is the latest approximate time TTD published for Sarva Darshan without SSD tokens.',wait:'—',crowd:'—'},
+    special:{name:'Special Entry Darshan',desc:'Paid special-entry darshan. Check official booking availability and the reporting time on your ticket.',wait:'Ticket slot',crowd:'As per ticket'},
+    divya:{name:'Divya Darshan',desc:'Facility for eligible pilgrims using designated footpaths, subject to the latest TTD rules.',wait:'Check TTD',crowd:'Footpath rules'}
+  };
+  document.querySelectorAll('#darshanTabs .tab').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('#darshanTabs .tab').forEach(t=>t.classList.toggle('active',t===btn));
+    const d=darshanData[btn.dataset.tab]; document.getElementById('darshanName').textContent=d.name;document.getElementById('darshanDesc').textContent=d.desc;
+    document.getElementById('waitValue').textContent=btn.dataset.tab==='sarva' && currentLive?.darshan?.approxWaitText ? currentLive.darshan.approxWaitText : d.wait;
+    document.getElementById('crowdValue').textContent=btn.dataset.tab==='sarva' && currentLive?.darshan?.queuePosition ? currentLive.darshan.queuePosition : d.crowd;
+  }));
+  // --- Automatic public-data feed ---
+  const TLI = window.TLI_CONFIG || {};
+  const LIVE_FALLBACK = './data/live.json';
+  let currentLive = null;
+  let firebaseMessaging = null;
+  let firebaseOnMessageBound = false;
+  const fmtDate = (value) => {
+    if (!value) return '—';
+    const date = new Date(value.length === 10 ? value + 'T00:00:00+05:30' : value);
+    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('en-IN',{day:'2-digit',month:'short',year:'numeric'}).format(date);
+  };
+  const fmtDateTime = (value) => {
+    if (!value) return 'Not available';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:true,timeZone:'Asia/Kolkata'}).format(date) + ' IST';
+  };
+  const esc = (value) => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const fmtNumber = (value) => value == null ? '—' : Number(value).toLocaleString('en-IN');
+  async function getLiveSnapshot(){
+    if (TLI.supabaseUrl && TLI.supabaseAnonKey) {
+      const url = TLI.supabaseUrl.replace(/\/$/,'') + '/rest/v1/live_snapshots?select=payload,updated_at&id=eq.latest';
+      const headers={apikey:TLI.supabaseAnonKey};
+      if(TLI.supabaseAnonKey.startsWith('eyJ')) headers.Authorization='Bearer '+TLI.supabaseAnonKey;
+      const response = await fetch(url,{headers,cache:'no-store'});
+      if (!response.ok) throw new Error('Live database returned HTTP '+response.status);
+      const rows = await response.json();
+      if (rows && rows[0] && rows[0].payload) return rows[0].payload;
+      throw new Error('The live database has no first snapshot yet.');
+    }
+    const response = await fetch(LIVE_FALLBACK + '?v=' + Date.now(),{cache:'no-store'});
+    if (!response.ok) throw new Error('Local snapshot is not available.');
+    return await response.json();
+  }
+  function renderNews(items, targetId, maxItems){
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    if (!Array.isArray(items) || !items.length){target.innerHTML='<p class="small muted">No current TTD article data available. Open TTD News directly.</p>';return;}
+    target.innerHTML = items.slice(0,maxItems).map(item => {
+      const url = String(item.url || 'https://news.tirumala.org/');
+      const safeUrl = /^https:\/\/news\.tirumala\.org\//i.test(url) ? url : 'https://news.tirumala.org/';
+      return `<div class="feed-item"><b>${esc(item.title || 'TTD announcement')}</b><p>${esc(item.summary || '')}${item.date ? ' · '+esc(fmtDate(item.date)) : ''}</p><a href="${esc(safeUrl)}" target="_blank" rel="noopener">Read on TTD News ↗</a></div>`;
+    }).join('');
+  }
+  function updateSourceLabel(id, record){
+    const el=document.getElementById(id); if(!el) return;
+    if(!record){el.textContent='Not checked';el.style.color='var(--muted)';return;}
+    if(record.ok && currentLive?.isReferenceSnapshot){el.textContent='Reference · '+fmtDateTime(record.checkedAt);el.style.color='#9b6a20';return;}
+    if(record.ok){el.textContent='OK · '+fmtDateTime(record.checkedAt);el.style.color='var(--green)';return;}
+    el.textContent=record.lastSuccessfulAt ? 'Failed · last OK '+fmtDateTime(record.lastSuccessfulAt) : 'Unavailable';
+    el.style.color='#a33b3b';
+  }
+  function renderLive(payload){
+    currentLive = payload || {};
+    const d=currentLive.darshan || {}, s=currentLive.ssd || {}, weather=currentLive.weather;
+    const isSeed=!!currentLive.isReferenceSnapshot;
+    const isStale=!!currentLive.isStale;
+    document.getElementById('feedStatus').textContent = isSeed ? 'REFERENCE DATA · SETUP REQUIRED' : (isStale ? 'SOURCES UNAVAILABLE · LAST SAVED DATA' : 'AUTOMATIC PUBLIC FEED');
+    document.getElementById('feedStatus').style.color = (isSeed || isStale) ? '#9b6a20' : 'var(--green)';
+    document.getElementById('feedUpdated').textContent = 'Last collection: '+fmtDateTime(currentLive.lastCheckedAt);
+    document.getElementById('queueStatus').textContent = d.approxWaitText ? (isSeed ? 'REFERENCE' : 'TTD REPORTED') : 'NO REPORT';
+    document.getElementById('queueWait').textContent = d.approxWaitText || 'Not reported';
+    document.getElementById('queuePosition').textContent = d.queuePosition || 'Not reported';
+    document.getElementById('compartmentStatus').textContent = d.waitingCompartments != null ? d.waitingCompartments : (d.waitingCompartmentsText || 'Not reported');
+    document.getElementById('compartmentLabel').textContent = d.waitingCompartments != null ? 'Waiting compartments' : 'Compartment detail';
+    document.getElementById('darshanReportDate').textContent = fmtDate(d.reportedFor);
+    document.getElementById('waitValue').textContent = d.approxWaitText || 'Not reported';
+    document.getElementById('crowdValue').textContent = d.queuePosition || 'Not reported';
+    document.getElementById('waitAge').textContent = d.reportedFor ? 'TTD report · '+fmtDate(d.reportedFor) : 'No current TTD report';
+    document.getElementById('queueAge').textContent = d.waitingCompartments != null ? 'TTD numeric compartment count' : 'Queue description from TTD';
+    document.getElementById('darshanChecked').textContent = fmtDateTime((currentLive.sources?.ttdBreakingNews || {}).lastSuccessfulAt || d.observedAt);
+    document.getElementById('ssdSlot').textContent = s.runningSlot == null ? 'Not reported' : String(s.runningSlot);
+    document.getElementById('ssdDate').textContent = s.date ? 'For '+fmtDate(s.date) : 'Date not reported';
+    document.getElementById('ssdBalance').textContent = s.balanceTickets == null ? 'Not reported' : fmtNumber(s.balanceTickets);
+    document.getElementById('ssdBalanceNote').textContent = s.balanceTickets === 0 ? 'TTD page shows zero balance' : 'Balance shown on TTD page';
+    document.getElementById('ssdStatus').textContent = s.observedAt ? (isSeed?'Reference snapshot':'TTD page checked') : 'Waiting for source';
+    document.getElementById('ssdNote').textContent = s.note || 'TTD booking status changes; check the official page before travelling.';
+    const footfall = d.pilgrimsYesterday == null ? '—' : fmtNumber(d.pilgrimsYesterday);
+    document.getElementById('pilgrimStats').textContent=footfall;
+    document.getElementById('pilgrimStatsDate').textContent=d.pilgrimsDate ? 'For '+fmtDate(d.pilgrimsDate) : 'TTD daily report';
+    document.getElementById('dailyFootfallStatus').textContent=d.pilgrimsYesterday == null ? 'Not published' : (isSeed ? 'Reference' : 'Updated');
+    const homeNews = Array.isArray(currentLive.news) ? currentLive.news : [];
+    document.getElementById('newsCount').textContent = homeNews.length+' items';
+    renderNews(homeNews,'homeNews',3);
+    renderNews(homeNews,'updatesList',12);
+    document.getElementById('updatesCount').textContent = homeNews.length+' items';
+    updateSourceLabel('srcTtdCurrent',currentLive.sources?.ttdCurrentBooking);
+    updateSourceLabel('srcTtdBreaking',currentLive.sources?.ttdBreakingNews);
+    updateSourceLabel('srcTtdNews',currentLive.sources?.ttdNews);
+    updateSourceLabel('srcWeather',currentLive.sources?.weather);
+    if(weather && weather.temperatureC != null){
+      document.getElementById('weatherCard').hidden=false;
+      document.getElementById('weatherTemp').textContent=weather.temperatureC+'°C';
+      document.getElementById('weatherCondition').textContent=weather.condition || 'Current conditions';
+      document.getElementById('weatherUpdated').textContent='Humidity '+(weather.humidityPercent ?? '—')+'% · Wind '+(weather.windKmh ?? '—')+' km/h · '+fmtDateTime(weather.observedAt);
+    }
+    if(isSeed && !sessionStorage.getItem('tli-seed-notice')){
+      sessionStorage.setItem('tli-seed-notice','1');
+      document.getElementById('feedUpdated').textContent += ' · automatic updater not connected yet';
+    }
+  }
+  async function refreshLive(showToast=false){
+    const button=document.getElementById('refreshBtn');
+    if(button){button.disabled=true;button.textContent='Checking…';}
+    try{
+      const snapshot=await getLiveSnapshot();
+      renderLive(snapshot);
+      if(showToast && !snapshot.isReferenceSnapshot) toast('Public information refreshed');
+    }catch(error){
+      document.getElementById('feedStatus').textContent='UPDATE NOT AVAILABLE';
+      document.getElementById('feedUpdated').textContent=error.message+' · showing last saved information if available';
+      if(showToast) toast('Could not refresh. Check your connection.');
+    }finally{
+      if(button){button.disabled=false;button.textContent='↻ Refresh';}
+    }
+  }
+  document.getElementById('refreshBtn').addEventListener('click',()=>refreshLive(true));
+  refreshLive(false);
+  // The GitHub schedule checks source pages every 15 minutes; the app reads the snapshot every 5 minutes.
+  setInterval(()=>refreshLive(false),5*60*1000);
+
+  // --- Opt-in push notifications (FCM) ---
+  function configIsReady(){
+    const f=TLI.firebase||{};
+    return !!(TLI.supabaseUrl && TLI.supabaseAnonKey && f.apiKey && f.projectId && f.messagingSenderId && f.appId && TLI.firebaseVapidKey);
+  }
+  function loadScript(src){return new Promise((resolve,reject)=>{if(document.querySelector('script[src="'+src+'"]')){resolve();return;}const script=document.createElement('script');script.src=src;script.onload=resolve;script.onerror=()=>reject(new Error('Could not load Firebase messaging SDK'));document.head.appendChild(script);});}
+  async function enablePush(){
+    if(!('Notification' in window) || !('serviceWorker' in navigator)){toast('Push notifications need a supported browser and HTTPS.');return;}
+    if(!configIsReady()){
+      openModal('Finish notification setup',`<p>Notifications are wired into the app, but the free Firebase and Supabase project keys have not been added yet.</p><ol class="small"><li>Create a Firebase Web app and enable Cloud Messaging.</li><li>Create a Supabase project and run <code>supabase/schema.sql</code>.</li><li>Paste the public project settings into <code>app-config.js</code>.</li><li>Add the server secrets to GitHub Actions.</li></ol><p class="small">See <b>SETUP-AUTOMATIC-UPDATES.md</b> inside the project ZIP for the full steps.</p>`);
+      return;
+    }
+    const permission=await Notification.requestPermission();
+    if(permission!=='granted'){toast('Notification permission was not granted.');return;}
+    try{
+      await loadScript('https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js');
+      await loadScript('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js');
+      if(!firebase.apps.length) firebase.initializeApp(TLI.firebase);
+      const registration=await navigator.serviceWorker.ready;
+      const messaging=firebase.messaging();
+      const token=await messaging.getToken({vapidKey:TLI.firebaseVapidKey,serviceWorkerRegistration:registration});
+      if(!token) throw new Error('Firebase did not return a push token. Check the VAPID key and Firebase setup.');
+      const pushHeaders={apikey:TLI.supabaseAnonKey,'Content-Type':'application/json',Prefer:'return=minimal'};
+      if(TLI.supabaseAnonKey.startsWith('eyJ')) pushHeaders.Authorization='Bearer '+TLI.supabaseAnonKey;
+      const response=await fetch(TLI.supabaseUrl.replace(/\/$/,'')+'/rest/v1/push_subscriptions',{
+        method:'POST',headers:pushHeaders,
+        body:JSON.stringify({fcm_token:token})
+      });
+      if(!response.ok && response.status!==409) throw new Error('Could not register this device for alerts (HTTP '+response.status+'). Check the Supabase SQL setup.');
+      if(!firebaseOnMessageBound){
+        messaging.onMessage(payload=>{const n=payload.notification||{};toast((n.title?n.title+': ':'')+(n.body||'New Tirumala update'));});
+        firebaseOnMessageBound=true;
+      }
+      localStorage.setItem('tli-push-enabled','yes');
+      openModal('Notifications enabled',`<p><b>This device is registered for Tirumala Live Info alerts.</b></p><p>You'll receive TTD-published queue changes, SSD balance / slot changes, new TTD announcements and significant weather changes when the scheduled checker detects them.</p><p class="small">Delivery depends on your browser notification settings, internet access and Firebase service availability.</p>`);
+    }catch(error){console.error(error);toast(error.message||'Notification setup failed.');}
+  }
+
+  // Checklist count and persistence for this browser session
+  const checks=[...document.querySelectorAll('.tripcheck')];
+  function countChecks(){const n=checks.filter(c=>c.checked).length;document.getElementById('checkCount').textContent=n+' / '+checks.length+' done';}
+  checks.forEach(c=>c.addEventListener('change',countChecks));
+  document.getElementById('resetChecks').addEventListener('click',()=>{checks.forEach(c=>c.checked=false);countChecks();toast('Checklist reset');});
+  document.getElementById('routeBtn').addEventListener('click',()=>{
+    const origin=document.getElementById('origin').value.trim(); const date=document.getElementById('travelDate').value;
+    if(!origin){toast('Enter your starting point first');document.getElementById('origin').focus();return;}
+    go('planner'); document.getElementById('planDate').value=date; toast('Checklist opened for your trip');
+  });
+  // Language toggle: preview changes key navigation / hero copy, content remains English for this prototype.
+  let telugu=false;
+  document.getElementById('langBtn').addEventListener('click',()=>{
+    telugu=!telugu; document.getElementById('langBtn').textContent=telugu?'EN':'తె';
+    document.getElementById('heroTitle').innerHTML=telugu?'మీ దర్శనాన్ని<br/>సంతోషంగా ప్లాన్ చేయండి.':'Plan your darshan.<br/>Travel with peace.';
+    document.getElementById('heroSub').textContent=telugu?'మీ శ్రీవారి యాత్రలో ప్రతి అడుగుకూ ఉపయోగకరమైన సమాచారం.':'Helpful information for every step of your Tirumala visit.';
+    const labels=telugu?['హోమ్','దర్శనం','యాత్ర','భక్తి','మరిన్ని']:['Home','Darshan','My Yatra','Bhakti','More'];
+    navItems.forEach((n,i)=>n.lastElementChild.textContent=labels[i]);
+    toast(telugu?'తెలుగు ప్రివ్యూ':'English preview');
+  });
+  // Modal content
+  const modal=document.getElementById('modal');
+  function openModal(title,html){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=html;modal.classList.add('show');}
+  document.getElementById('modalClose').addEventListener('click',()=>modal.classList.remove('show'));
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+  document.getElementById('bellBtn').addEventListener('click',()=>openModal('Tirumala alerts',`<p>Enable all available automatic alerts on this device.</p><p class="small">Queue estimate changes, SSD slot and balance changes, new official TTD posts and significant weather changes.</p><button class="push-primary" id="enablePushBtn">Enable all notifications</button><p class="small muted">You can change notification permission later in your browser or phone settings.</p>`));
+  document.addEventListener('click',e=>{if(e.target && e.target.id==='enablePushBtn') enablePush();});
+  document.getElementById('faqOpen').addEventListener('click',()=>openModal('Frequently asked questions',`<p><b>Is this an official TTD app?</b><br>No. Tirumala Live Info is an independent prototype.</p><p><b>Can I book tickets here?</b><br>No. Use the official TTD website for all ticket and accommodation bookings.</p><p><b>Are queue timings live?</b><br>The app shows the latest TTD-published approximate queue report after the scheduled updater is configured. It is not a guaranteed wait time.</p><p><b>Are room and locker vacancies live?</b><br>No public vacancy feed is available in the connected TTD sources. The app links to official counters and booking pages.</p><p><b>Will it support Telugu?</b><br>The language control is a preview. Full bilingual content can be added in the next version.</p><a href="https://www.tirumala.org/" target="_blank" rel="noopener">Official TTD website ↗</a>`));
+  // PWA worker
+  if('serviceWorker' in navigator && location.protocol.startsWith('http')){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
+</script>
+</body>
+</html>
