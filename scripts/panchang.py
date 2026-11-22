@@ -89,7 +89,7 @@ def format_time(value: datetime | None) -> str | None:
 
 def _load_skyfield(ephemeris_path: str | Path):
     try:
-        from skyfield.api import Loader, Topos, load
+        from skyfield.api import load, wgs84
         from skyfield import almanac
     except ImportError as exc:
         raise RuntimeError("Install the free Skyfield dependency to calculate Panchangam.") from exc
@@ -99,7 +99,7 @@ def _load_skyfield(ephemeris_path: str | Path):
         raise FileNotFoundError(f"JPL ephemeris file not found: {path}")
     ts = load.timescale()
     eph = load(str(path))
-    location = Topos(latitude_degrees=LATITUDE, longitude_degrees=LONGITUDE, elevation_m=ELEVATION_M)
+    location = wgs84.latlon(LATITUDE, LONGITUDE, elevation_m=ELEVATION_M)
     return ts, eph, location, almanac
 
 
@@ -133,8 +133,6 @@ def calculate_solar_events(day: date, ephemeris_path: str | Path) -> dict[str, d
 def calculate_sidereal_longitudes(moment: datetime, ephemeris_path: str | Path) -> dict[str, float]:
     """Return geocentric apparent sidereal longitudes using provisional Lahiri ayanamsa."""
     ts, eph, _location, _almanac = _load_skyfield(ephemeris_path)
-    from skyfield.api import wgs84
-
     t = ts.from_datetime(moment.astimezone(timezone.utc))
     earth = eph["earth"]
     sun = earth.at(t).observe(eph["sun"]).apparent()
