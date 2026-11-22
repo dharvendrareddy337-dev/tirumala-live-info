@@ -67,12 +67,12 @@ Validation consequence:
 
 ## Current implementation decision
 
-No astronomical calculation code or new dependency has been added yet. The existing runtime feed remains marked unavailable. This is intentional: the PDF's printed convention has now been identified, but a verified, machine-readable set of date/time reference points and an acceptable permissive-licensed ephemeris stack are still required before a calculation can be called validated.
+The first experimental calculation module and isolated test workflow have now been added on this branch only. The existing runtime feed remains marked unavailable. This is intentional: the PDF's printed convention has been identified, but a verified, machine-readable set of date/time reference points and an acceptable permissive-licensed ephemeris stack are still required before a calculation can be called validated.
 
 
 ## Free calculation prototype added (not production-enabled)
 
-A first experimental helper module now exists at `scripts/panchang.py`. It uses Skyfield, an open-source Python astronomy library, and expects a JPL DE421 ephemeris file supplied locally. The Panchangam dependency is isolated in `scripts/requirements-panchang.txt`; it is not installed by the existing live-data updater.
+A first experimental helper module now exists at `scripts/panchang.py`. It uses Skyfield, an open-source Python astronomy library, and expects a JPL DE421 ephemeris file supplied locally. The location object uses Skyfield's current `wgs84.latlon` API. The Panchangam dependency is isolated in `scripts/requirements-panchang.txt`; it is not installed by the existing live-data updater.
 
 The prototype currently contains:
 - solar sunrise/sunset and lunar rise event calculations for Tirumala;
