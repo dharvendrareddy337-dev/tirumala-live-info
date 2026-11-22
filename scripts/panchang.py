@@ -147,6 +147,70 @@ def calculate_sidereal_longitudes(moment: datetime, ephemeris_path: str | Path) 
     }
 
 
+def find_next_angular_transition(
+    start: datetime,
+    longitude_at,
+    divisions: int,
+    *,
+    max_hours: int = 48,
+    step_minutes: int = 10,
+    tolerance_seconds: float = 1.0,
+) -> datetime | None:
+    """Find the next equal-arc segment boundary using a bracket and bisection.
+
+    longitude_at(moment) must return a continuously advancing angular value
+    in degrees (it may wrap at 360). This returns the first transition after
+    start, to approximately tolerance_seconds.
+    """
+    if divisions <= 0 or max_hours <= 0 or step_minutes <= 0:
+        raise ValueError("divisions, max_hours and step_minutes must be positive")
+
+    current_index = angular_index(longitude_at(start), divisions)
+    left = start
+    limit = start + timedelta(hours=max_hours)
+    step = timedelta(minutes=step_minutes)
+
+    while left < limit:
+        right = min(left + step, limit)
+        if angular_index(longitude_at(right), divisions) != current_index:
+            # Bisection is safe because the bracket is short enough that the
+            # angle cannot cross and return to the same segment.
+            while (right - left).total_seconds() > tolerance_seconds:
+                middle = left + (right - left) / 2
+                if angular_index(longitude_at(middle), divisions) == current_index:
+                    left = middle
+                else:
+                    right = middle
+            return right
+        left = right
+    return None
+
+
+def calculate_transition_times(
+    sunrise: datetime,
+    ephemeris_path: str | Path,
+) -> dict[str, datetime | None]:
+    """Calculate next Tithi and Nakshatra boundaries after Tirumala sunrise."""
+    def positions(moment: datetime) -> dict[str, float]:
+        return calculate_sidereal_longitudes(moment, ephemeris_path)
+
+    at_sunrise = positions(sunrise)
+    tithi_end = find_next_angular_transition(
+        sunrise,
+        lambda moment: positions(moment)["elongation"],
+        30,
+    )
+    nakshatra_end = find_next_angular_transition(
+        sunrise,
+        lambda moment: positions(moment)["moon"],
+        27,
+    )
+    return {
+        "tithiEndAt": tithi_end,
+        "nakshatraEndAt": nakshatra_end,
+    }
+
+
 def calculate_day_periods(day: date, sunrise: datetime, sunset: datetime) -> dict[str, str | None]:
     """Calculate sunrise-based weekday and standard eight-part daytime intervals."""
     if sunrise.date() != day or sunset.date() != day or sunset <= sunrise:
@@ -178,6 +242,7 @@ def calculate_daily_base(day: date, ephemeris_path: str | Path) -> dict[str, Any
     if sunrise is None or sunset is None:
         raise RuntimeError("Could not determine both sunrise and sunset for Tirumala.")
     positions = calculate_sidereal_longitudes(sunrise, ephemeris_path)
+    transitions = calculate_transition_times(sunrise, ephemeris_path)
     ti = tithi_index(positions["moon"], positions["sun"])
     ni = angular_index(positions["moon"], 27)
     yi = angular_index(positions["sun"] + positions["moon"], 27)
@@ -187,7 +252,11 @@ def calculate_daily_base(day: date, ephemeris_path: str | Path) -> dict[str, Any
         "observedAt": datetime.now(IST).isoformat(timespec="seconds"),
         "vara": day.strftime("%A"),
         "tithi": TITHI_NAMES[ti],
+        "tithiEnd": format_time(transitions["tithiEndAt"]),
+        "tithiEndAt": transitions["tithiEndAt"].isoformat(timespec="seconds") if transitions["tithiEndAt"] else None,
         "nakshatra": NAKSHATRA_NAMES[ni],
+        "nakshatraEnd": format_time(transitions["nakshatraEndAt"]),
+        "nakshatraEndAt": transitions["nakshatraEndAt"].isoformat(timespec="seconds") if transitions["nakshatraEndAt"] else None,
         "yogaIndex": yi + 1,
         "karana": None,
         "sunrise": format_time(sunrise),
