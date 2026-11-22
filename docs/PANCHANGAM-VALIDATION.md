@@ -97,3 +97,21 @@ An isolated GitHub Actions workflow runs helper unit tests for this prototype. P
 The Skyfield project LICENSE file identifies the library as MIT-licensed and permits use, modification and distribution subject to retaining its copyright and permission notice. Source reviewed: https://github.com/skyfielders/python-skyfield/blob/master/LICENSE
 
 This means the Python library itself does not require a paid subscription. The JPL ephemeris data file is a separate input and must have its own source/provenance recorded; the project does not bundle or redistribute it at this stage.
+
+
+## First automated TTD comparison result — NOT PASSED
+
+The January 3, 2027 cell was visually checked on page 1 of the supplied PDF:
+- Tithi: Ekadashi, ending at 6:08 PM IST.
+- Nakshatra: Vishakha, ending at 11:49 PM IST.
+
+The fixture records these exact printed values. The first GitHub Actions run downloaded Skyfield 1.55 and JPL DE421, then ran the calculation against this reference.
+
+Result:
+- Basic arithmetic and transition-search helper tests: passed.
+- Sunrise and Tithi/Nakshatra labels for the reference date: reached the transition-time comparison.
+- Calculated Tithi end: 4:08:50 PM IST.
+- TTD printed Tithi end: 6:08 PM IST.
+- Difference: approximately 1 hour 59 minutes 10 seconds (outside the five-minute acceptance tolerance).
+
+This is a real validation failure, not a passing match. Do not compensate by adding a hard-coded two-hour offset. Investigate the selected calendar convention, ephemeris coordinate/phase definition, and interpretation of the TTD time notation. Keep Panchangam disabled in production until the cause is explained and more dates independently match. The Nakshatra ending-time comparison still needs to be evaluated after the Tithi discrepancy is understood.
