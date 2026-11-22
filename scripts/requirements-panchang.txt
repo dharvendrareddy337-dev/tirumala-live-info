@@ -1,0 +1,2 @@
+# Experimental Panchangam engine only; not installed by the live updater.
+skyfield>=1.49,<2

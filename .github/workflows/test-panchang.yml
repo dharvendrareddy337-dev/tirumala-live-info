@@ -1,0 +1,43 @@
+name: Test experimental Panchangam calculations
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/panchang.py'
+      - 'scripts/test_panchang.py'
+      - 'scripts/test_ttd_reference.py'
+      - 'scripts/fixtures/**'
+      - 'scripts/requirements-panchang.txt'
+      - '.github/workflows/test-panchang.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test-panchang:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated Panchangam dependency
+        run: pip install -r scripts/requirements-panchang.txt
+      - name: Download public JPL DE421 ephemeris for validation
+        working-directory: scripts
+        run: |
+          python - <<'PY'
+          from skyfield.api import load
+          ephemeris = load("de421.bsp")
+          print(f"Loaded JPL DE421: {ephemeris.filename}")
+          with open("../ephemeris-path.txt", "w", encoding="utf-8") as handle:
+              handle.write(str(ephemeris.filename))
+          PY
+          echo "EPHEMERIS_PATH=$(cat ../ephemeris-path.txt)" >> "$GITHUB_ENV"
+      - name: Run arithmetic and TTD reference tests
+        working-directory: scripts
+        run: python -m unittest test_panchang test_ttd_reference -v
