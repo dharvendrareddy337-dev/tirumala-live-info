@@ -115,3 +115,12 @@ Result:
 - Difference: approximately 1 hour 59 minutes 10 seconds (outside the five-minute acceptance tolerance).
 
 This is a real validation failure, not a passing match. Do not compensate by adding a hard-coded two-hour offset. Investigate the selected calendar convention, ephemeris coordinate/phase definition, and interpretation of the TTD time notation. Keep Panchangam disabled in production until the cause is explained and more dates independently match. The Nakshatra comparison was also evaluated: the prototype returned 9:36:20 PM IST versus TTD's 11:49 PM IST, approximately 132.7 minutes early. Both transition times therefore fail the five-minute acceptance tolerance.
+
+
+## Correction to the first TTD transcription
+
+A higher-resolution crop of the January 3 cell shows that the two ending times were initially assigned to the wrong fields. The printed lines are:
+- Vishakha (Nakshatra) ends at 6:08 PM IST.
+- Ekadashi (Tithi) ends at 11:49 PM IST.
+
+The fixture has been corrected accordingly. The earlier comparison results (Tithi 4:08:50 PM and Nakshatra 9:36:20 PM) were compared against reversed expected fields and must not be treated as a valid TTD validation result. Re-run the comparison with the corrected fixture before drawing any conclusion about calculation accuracy. This reinforces the safer approach of displaying TTD's published calendar values directly rather than relying on a manually transcribed/independently calculated feed.
