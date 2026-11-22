@@ -1,7 +1,7 @@
 {
   "name": "Tirumala Live Info",
   "short_name": "Tirumala Live",
-  "description": "An independent Tirumala pilgrim companion featuring the Sudarshana Chakra, Vaishnava Namam and Shankha emblem.",
+  "description": "Tirumala pilgrim companion with TTD public updates, devotion, and notifications.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#3a0307",
