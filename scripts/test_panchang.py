@@ -36,11 +36,6 @@ class PanchangMathTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             panchang.calculate_day_periods(day, sunrise, sunset)
 
-    def test_unverified_traditional_periods_are_not_fabricated(self):
-        # Amrita Kalam, Varjyam, Durmuhurtham and Karana intentionally remain
-        # unavailable until their tradition-specific rules are validated.
-        self.assertIsNone(None)
-
 
 if __name__ == "__main__":
     unittest.main()
