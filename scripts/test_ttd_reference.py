@@ -41,8 +41,22 @@ class TTDCalendarComparison(unittest.TestCase):
                 expected_nakshatra = datetime.combine(day, datetime.strptime(entry["nakshatraEndsLocal"], "%H:%M").time(), tzinfo=IST)
                 self.assertIsNotNone(transitions["tithiEndAt"])
                 self.assertIsNotNone(transitions["nakshatraEndAt"])
-                self.assertLessEqual(abs((transitions["tithiEndAt"] - expected_tithi).total_seconds()), 5 * 60, "calculated=%s expected=%s sunrise=%s positions=%s" % (transitions["tithiEndAt"], expected_tithi, sunrise, positions))
-                self.assertLessEqual(abs((transitions["nakshatraEndAt"] - expected_nakshatra).total_seconds()), 5 * 60, "calculated=%s expected=%s sunrise=%s positions=%s" % (transitions["nakshatraEndAt"], expected_nakshatra, sunrise, positions))
+                discrepancies = []
+                for label, calculated, expected in (
+                    ("Tithi", transitions["tithiEndAt"], expected_tithi),
+                    ("Nakshatra", transitions["nakshatraEndAt"], expected_nakshatra),
+                ):
+                    difference = (calculated - expected).total_seconds()
+                    if abs(difference) > 5 * 60:
+                        discrepancies.append(
+                            f"{label}: calculated {calculated}, TTD {expected}, "
+                            f"difference {difference / 60:.1f} minutes"
+                        )
+                if discrepancies:
+                    self.fail(
+                        "; ".join(discrepancies)
+                        + f"; sunrise={sunrise}; positions={positions}"
+                    )
 
 
 if __name__ == "__main__":
