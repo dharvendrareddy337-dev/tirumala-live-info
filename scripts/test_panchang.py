@@ -37,5 +37,36 @@ class PanchangMathTests(unittest.TestCase):
             panchang.calculate_day_periods(day, sunrise, sunset)
 
 
+    def test_next_transition_is_found_by_bisection(self):
+        start = datetime(2027, 1, 1, 6, 0, tzinfo=ZoneInfo("Asia/Kolkata"))
+        def longitude(moment):
+            hours = (moment - start).total_seconds() / 3600
+            return (11.5 + 0.5 * hours) % 360
+        found = panchang.find_next_angular_transition(start, longitude, 30)
+        expected = start.replace(hour=7, minute=0)
+        self.assertIsNotNone(found)
+        self.assertLessEqual(abs((found - expected).total_seconds()), 1.0)
+
+    def test_next_transition_handles_360_degree_wrap(self):
+        start = datetime(2027, 1, 1, 6, 0, tzinfo=ZoneInfo("Asia/Kolkata"))
+        def longitude(moment):
+            hours = (moment - start).total_seconds() / 3600
+            return (359.5 + 0.5 * hours) % 360
+        found = panchang.find_next_angular_transition(start, longitude, 360)
+        expected = start.replace(hour=7, minute=0)
+        self.assertIsNotNone(found)
+        self.assertLessEqual(abs((found - expected).total_seconds()), 1.0)
+
+    def test_no_transition_returns_none(self):
+        start = datetime(2027, 1, 1, 6, 0, tzinfo=ZoneInfo("Asia/Kolkata"))
+        found = panchang.find_next_angular_transition(start, lambda _moment: 2.0, 30, max_hours=2)
+        self.assertIsNone(found)
+
+    def test_invalid_transition_arguments_rejected(self):
+        start = datetime(2027, 1, 1, 6, 0, tzinfo=ZoneInfo("Asia/Kolkata"))
+        with self.assertRaises(ValueError):
+            panchang.find_next_angular_transition(start, lambda _moment: 2.0, 0)
+
+
 if __name__ == "__main__":
     unittest.main()
