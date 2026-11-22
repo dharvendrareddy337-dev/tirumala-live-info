@@ -41,8 +41,8 @@ class TTDCalendarComparison(unittest.TestCase):
                 expected_nakshatra = datetime.combine(day, datetime.strptime(entry["nakshatraEndsLocal"], "%H:%M").time(), tzinfo=IST)
                 self.assertIsNotNone(transitions["tithiEndAt"])
                 self.assertIsNotNone(transitions["nakshatraEndAt"])
-                self.assertLessEqual(abs((transitions["tithiEndAt"] - expected_tithi).total_seconds()), 5 * 60)
-                self.assertLessEqual(abs((transitions["nakshatraEndAt"] - expected_nakshatra).total_seconds()), 5 * 60)
+                self.assertLessEqual(abs((transitions["tithiEndAt"] - expected_tithi).total_seconds()), 5 * 60, "calculated=%s expected=%s sunrise=%s positions=%s" % (transitions["tithiEndAt"], expected_tithi, sunrise, positions))
+                self.assertLessEqual(abs((transitions["nakshatraEndAt"] - expected_nakshatra).total_seconds()), 5 * 60, "calculated=%s expected=%s sunrise=%s positions=%s" % (transitions["nakshatraEndAt"], expected_nakshatra, sunrise, positions))
 
 
 if __name__ == "__main__":
