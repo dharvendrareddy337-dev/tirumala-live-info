@@ -68,3 +68,25 @@ Validation consequence:
 ## Current implementation decision
 
 No astronomical calculation code or new dependency has been added yet. The existing runtime feed remains marked unavailable. This is intentional: the PDF's printed convention has now been identified, but a verified, machine-readable set of date/time reference points and an acceptable permissive-licensed ephemeris stack are still required before a calculation can be called validated.
+
+
+## Free calculation prototype added (not production-enabled)
+
+A first experimental helper module now exists at `scripts/panchang.py`. It uses Skyfield, an open-source Python astronomy library, and expects a JPL DE421 ephemeris file supplied locally. The Panchangam dependency is isolated in `scripts/requirements-panchang.txt`; it is not installed by the existing live-data updater.
+
+The prototype currently contains:
+- solar sunrise/sunset and lunar rise event calculations for Tirumala;
+- a provisional Lahiri ayanamsa approximation;
+- basic tithi and nakshatra segment calculations;
+- weekday-based Rahu Kalam, Yamagandam and Gulika daytime segments;
+- provisional Brahma Muhurta and Abhijit intervals.
+
+Important limitations:
+- This is an engineering prototype, not a validated Panchangam.
+- The Lahiri approximation and time-window conventions require comparison with the supplied TTD calendar and a clearly selected tradition.
+- Tithi/Nakshatra are currently sampled at sunrise; transition/end times are not yet calculated.
+- Yoga is emitted only as an index in the prototype; Karana, Amrita Kalam, Varjyam and Durmuhurtham remain unavailable.
+- The module is not called by `update_data.py`, does not modify `data/live.json`, and does not publish to Supabase or Firebase.
+- No ephemeris binary is committed. Its acquisition, provenance, redistribution terms and checksum must be recorded before CI or production use.
+
+An isolated GitHub Actions workflow runs helper unit tests for this prototype. Passing those tests checks arithmetic helpers only; it does not establish agreement with TTD's calendar.
