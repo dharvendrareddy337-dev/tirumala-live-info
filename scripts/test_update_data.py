@@ -70,5 +70,78 @@ class SourceParserTests(unittest.TestCase):
         self.assertEqual(weather['condition'], 'Partly cloudy')
         self.assertEqual(weather['temperatureC'], 21.3)
 
+class V6CompatibilityTests(unittest.TestCase):
+    def test_missing_v6_sections_are_added(self):
+        payload = {
+            "schemaVersion": 1,
+            "darshan": {"approxWaitText": "8 H"},
+        }
+        seed = {
+            "schemaVersion": 3,
+            "statistics": {"laddu": {"latestMonthlySales": 100}},
+            "weeklyStats": {"days": [{"date": "2026-11-20", "pilgrims": 50000}]},
+            "panchang": {"sourceStatus": "not_connected"},
+        }
+
+        update_data.merge_v6_sections(payload, seed)
+
+        self.assertEqual(payload["schemaVersion"], 3)
+        self.assertEqual(payload["statistics"], seed["statistics"])
+        self.assertEqual(payload["weeklyStats"], seed["weeklyStats"])
+        self.assertEqual(payload["panchang"], seed["panchang"])
+        self.assertEqual(payload["darshan"]["approxWaitText"], "8 H")
+
+    def test_existing_values_and_nulls_are_preserved(self):
+        payload = {
+            "statistics": {
+                "laddu": {
+                    "latestMonthlySales": 200,
+                    "dailyLiveSales": None,
+                }
+            }
+        }
+        seed = {
+            "schemaVersion": 3,
+            "statistics": {
+                "laddu": {
+                    "latestMonthlySales": 100,
+                    "dailyLiveSales": 50,
+                    "periodLabel": "Reference period",
+                }
+            },
+        }
+
+        update_data.merge_v6_sections(payload, seed)
+
+        laddu = payload["statistics"]["laddu"]
+        self.assertEqual(laddu["latestMonthlySales"], 200)
+        self.assertIsNone(laddu["dailyLiveSales"])
+        self.assertEqual(laddu["periodLabel"], "Reference period")
+
+    def test_existing_weekly_stats_are_not_overwritten(self):
+        payload = {
+            "weeklyStats": {
+                "days": [{"date": "2026-11-21", "pilgrims": 60000}]
+            }
+        }
+        seed = {
+            "schemaVersion": 3,
+            "weeklyStats": {
+                "days": [{"date": "2026-11-20", "pilgrims": 50000}]
+            },
+        }
+
+        update_data.merge_v6_sections(payload, seed)
+
+        self.assertEqual(
+            payload["weeklyStats"]["days"][0]["date"],
+            "2026-11-21",
+        )
+        self.assertEqual(
+            payload["weeklyStats"]["days"][0]["pilgrims"],
+            60000,
+        )
+
+
 if __name__ == '__main__':
     unittest.main()

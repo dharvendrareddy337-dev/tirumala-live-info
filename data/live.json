@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 3,
   "lastCheckedAt": "2026-11-14T16:40:00+05:30",
   "isReferenceSnapshot": true,
   "darshan": {
@@ -10,7 +10,9 @@
     "reportedFor": "2026-11-14",
     "pilgrimsYesterday": 70124,
     "pilgrimsDate": "2026-11-13",
-    "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+    "sourceUrl": "https://news.tirumala.org/category/breaking-news/",
+    "ssdWaitTime": null,
+    "ddWaitTime": null
   },
   "ssd": {
     "runningSlot": 12,
@@ -85,5 +87,146 @@
       "note": "Weather will populate after the scheduled updater is configured."
     }
   },
-  "disclaimer": "Independent information service. Queue estimates are TTD-published approximations, not guarantees. Room and locker vacancies are not provided as public live inventory. Always confirm important decisions with TTD."
+  "disclaimer": "Independent information service. Queue estimates are TTD-published approximations, not guarantees. Room and locker vacancies are not provided as public live inventory. Always confirm important decisions with TTD.",
+  "statistics": {
+    "checkedAt": "2026-11-21T00:00:00+05:30",
+    "laddu": {
+      "latestMonthlySales": 12681805,
+      "periodLabel": "June 2026 · TTD published monthly total",
+      "dailyLiveSales": null,
+      "sourceUrl": "https://news.tirumala.org/record-sale-of-12681805-srivari-laddus-in-june-_%E0%B0%9C%E0%B1%82%E0%B0%A8%E0%B1%8D-%E0%B0%A8%E0%B1%86%E0%B0%B2%E0%B0%B2%E0%B1%8B-%E0%B0%B0%E0%B0%BF%E0%B0%95%E0%B0%BE%E0%B0%B0%E0%B1%8D%E0%B0%A1/",
+      "note": "TTD published monthly sales; no public live daily sales counter."
+    },
+    "annaprasadam": {
+      "regularDailyAverageLakh": 1.8,
+      "regularDailyAverageUpperLakh": 1.9,
+      "peakDailyLakh": 3.0,
+      "cumulativeLabel": "90 million servings · January–September 2026 (TTD published total)",
+      "dailyLiveServings": null,
+      "sourceUrl": "https://news.tirumala.org/tirumala-annaprasadam-90-million-servings-in-09-months-_-%E0%B0%85%E0%B0%A8%E0%B1%8D%E0%B0%A8%E0%B0%AA%E0%B1%82%E0%B0%B0%E0%B1%8D%E0%B0%A3-%E0%B0%A8%E0%B0%BF%E0%B0%B2%E0%B0%AF%E0%B0%82-%E0%B0%B6/"
+    },
+    "srivani": {
+      "totalDailyOnlineQuota": 1500,
+      "advanceOnlineQuota": 500,
+      "tirumalaCurrentQuota": 800,
+      "airportDailyQuota": 200,
+      "donorAllocation": 300,
+      "remainingAirportTickets": null,
+      "effectiveUntil": "2027-03-31",
+      "sourceUrl": "https://news.tirumala.org/changes-in-allocation-of-srivani-darshan-tickets-_-%E0%B0%B6%E0%B1%8D%E0%B0%B0%E0%B0%B5%E0%B0%BE%E0%B0%A3%E0%B0%BF-%E0%B0%A6%E0%B0%B0%E0%B1%8D%E0%B0%B6%E0%B0%A8-%E0%B0%9F%E0%B0%B0/",
+      "airportTrackerUrl": "https://cracku.in/srivani-ticket-tracker",
+      "airportTrackerNote": "Independent third-party tracker that reports readings from the public airport display; not a TTD-operated service. Verify at the counter before travel."
+    },
+    "lockers": {
+      "publishedCounterCount": 80,
+      "publishedStaffCount": 394,
+      "freeLockerSpaces": null,
+      "sourcePublishedOn": "2026-03-17",
+      "sourceUrl": "https://news.tirumala.org/",
+      "pacPublishedCapacities": [
+        {
+          "name": "PAC-1",
+          "lockers": 870,
+          "note": "In service per TTD report; renovation had reduced capacity."
+        },
+        {
+          "name": "PAC-2 / Madhava Nilayam",
+          "lockers": 3300
+        },
+        {
+          "name": "PAC-3",
+          "lockers": 1420
+        }
+      ],
+      "capacityNote": "Published locker capacity is not the number of free lockers right now."
+    },
+    "rooms": {
+      "croVacantRooms": null,
+      "availabilityStatus": "not_published_as_public_live_feed",
+      "sourceUrl": "https://news.tirumala.org/",
+      "publishedTotalAccommodationRooms": 7800,
+      "capacityNote": "TTD-published total accommodation inventory; not vacant-room count."
+    }
+  },
+  "weeklyStats": {
+    "checkedAt": "2026-11-21T15:00:00+05:30",
+    "sourceUrl": "https://news.tirumala.org/category/breaking-news/",
+    "note": "Seven latest dated daily TTD reports visible on 21 Nov 2026. Daily laddu and Annaprasadam figures are included only where the TTD report explicitly publishes them.",
+    "days": [
+      {
+        "date": "2026-11-14",
+        "pilgrims": 83670,
+        "ladduSales": 432000,
+        "annaprasadamServings": 275000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      },
+      {
+        "date": "2026-11-15",
+        "pilgrims": 82173,
+        "ladduSales": 421000,
+        "annaprasadamServings": 259000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      },
+      {
+        "date": "2026-11-16",
+        "pilgrims": 68495,
+        "ladduSales": 351000,
+        "annaprasadamServings": 219000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      },
+      {
+        "date": "2026-11-17",
+        "pilgrims": 80833,
+        "ladduSales": 400000,
+        "annaprasadamServings": 226000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      },
+      {
+        "date": "2026-11-18",
+        "pilgrims": 77092,
+        "ladduSales": 419000,
+        "annaprasadamServings": 181000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      },
+      {
+        "date": "2026-11-19",
+        "pilgrims": 67915,
+        "ladduSales": 411000,
+        "annaprasadamServings": 183000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      },
+      {
+        "date": "2026-11-20",
+        "pilgrims": 56695,
+        "ladduSales": null,
+        "annaprasadamServings": 187000,
+        "sourceUrl": "https://news.tirumala.org/category/breaking-news/"
+      }
+    ]
+  },
+  "panchang": {
+    "sourceStatus": "not_connected",
+    "sourceName": null,
+    "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1254373",
+    "note": "Daily Panchanga feed is not configured; no values are guessed.",
+    "today": {
+      "vara": null,
+      "tithi": null,
+      "nakshatra": null,
+      "yoga": null,
+      "karana": null,
+      "sunrise": null,
+      "sunset": null,
+      "moonrise": null,
+      "brahmaMuhurta": null,
+      "abhijitMuhurta": null,
+      "amritaKalam": null,
+      "rahuKalam": null,
+      "yamagandam": null,
+      "gulikaKalam": null,
+      "varjyam": null,
+      "durmuhurtham": null
+    },
+    "upcomingFestivals": []
+  }
 }

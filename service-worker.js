@@ -1,7 +1,7 @@
 /* Tirumala Live Info offline cache + Firebase Cloud Messaging worker. */
 importScripts('./app-config.js');
 
-const CACHE = 'tirumala-live-info-v6';
+const CACHE = 'tirumala-live-info-v11';
 const FILES = [
   './', './index.html', './manifest.webmanifest', './app-config.js',
   './data/live.json', './assets/app-icon.png', './assets/full-logo.png',
@@ -51,6 +51,10 @@ if (firebaseReady) {
         body: notification.body || 'There is a new Tirumala update.',
         icon: './assets/icon-192.png',
         badge: './assets/icon-192.png',
+        tag: notification.tag || 'tirumala-live-info-update',
+        renotify: true,
+        silent: false,
+        vibrate: [150, 70, 150],
         data: { url: (payload.fcmOptions && payload.fcmOptions.link) || './index.html' }
       });
     });
