@@ -230,6 +230,37 @@ def load_json_file(path: Path) -> dict[str, Any]:
         return {}
 
 
+def merge_missing_fields(target: dict[str, Any], defaults: dict[str, Any]) -> None:
+    """Fill absent keys without overwriting existing values, including nulls."""
+    for key, default_value in defaults.items():
+        if key not in target:
+            target[key] = deepcopy(default_value)
+        elif isinstance(target[key], dict) and isinstance(default_value, dict):
+            merge_missing_fields(target[key], default_value)
+
+
+def merge_v6_sections(
+    payload: dict[str, Any],
+    seed_payload: dict[str, Any],
+) -> None:
+    """Add V6 reference sections while preserving existing snapshot data."""
+    for section in ("statistics", "weeklyStats", "panchang", "rooms", "lockers"):
+        seed_section = seed_payload.get(section)
+        if not isinstance(seed_section, dict):
+            continue
+
+        current_section = payload.get(section)
+        if not isinstance(current_section, dict):
+            payload[section] = deepcopy(seed_section)
+        else:
+            merge_missing_fields(current_section, seed_section)
+
+    payload["schemaVersion"] = max(
+        int(payload.get("schemaVersion", 1)),
+        int(seed_payload.get("schemaVersion", 1)),
+    )
+
+
 def source_status(
     name: str,
     ok: bool,
@@ -389,6 +420,12 @@ def main() -> int:
     # checks out the seed on every run, whereas Supabase holds the prior run.
     previous = previous_db or previous_file or None
     payload: dict[str, Any] = deepcopy(previous_db or previous_file or {})
+
+    # Merge V6 reference sections into older snapshots without replacing
+    # existing live values. The checked-in V6 seed must be deployed with this code.
+    seed_path = Path(__file__).resolve().parents[1] / "data" / "live.json"
+    seed_payload = load_json_file(seed_path)
+    merge_v6_sections(payload, seed_payload)
     previous_sources = payload.get("sources", {}) if isinstance(payload.get("sources"), dict) else {}
     if payload.get("isReferenceSnapshot"):
         # Seed snapshots are dated examples, not successful automatic checks.
