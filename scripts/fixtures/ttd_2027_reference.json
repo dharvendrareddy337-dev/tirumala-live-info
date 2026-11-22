@@ -1,0 +1,19 @@
+{
+  "source": "TTD 2027 Telugu calendar supplied by repository owner",
+  "sourceFile": "ttd-panchangam-calendar-2027-748.pdf",
+  "page": 1,
+  "transcriptionMethod": "Manually read from high-resolution page image; not OCR",
+  "timezone": "Asia/Kolkata",
+  "location": "Tirumala",
+  "entries": [
+    {
+      "date": "2027-01-03",
+      "weekday": "Sunday",
+      "tithi": "Ekadashi",
+      "tithiEndsLocal": "18:08",
+      "nakshatra": "Vishakha",
+      "nakshatraEndsLocal": "23:49",
+      "notes": "Printed in the Jan 3 cell as Ekadashi until 6:08 PM and Vishakha until 11:49 PM. Telugu abbreviations: సా. = evening; రా. = night."
+    }
+  ]
+}
