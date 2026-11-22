@@ -10,10 +10,10 @@
       "date": "2027-01-03",
       "weekday": "Sunday",
       "tithi": "Ekadashi",
-      "tithiEndsLocal": "18:08",
+      "tithiEndsLocal": "23:49",
       "nakshatra": "Vishakha",
-      "nakshatraEndsLocal": "23:49",
-      "notes": "Printed in the Jan 3 cell as Ekadashi until 6:08 PM and Vishakha until 11:49 PM. Telugu abbreviations: సా. = evening; రా. = night."
+      "nakshatraEndsLocal": "18:08",
+      "notes": "Corrected by close inspection of the January 3 cell crop: the first printed line is Vishakha ending at 6:08 PM (Sa. = evening); the second line is Ekadashi ending at 11:49 PM (Raa. = night)."
     }
   ]
 }
