@@ -90,3 +90,10 @@ Important limitations:
 - No ephemeris binary is committed. Its acquisition, provenance, redistribution terms and checksum must be recorded before CI or production use.
 
 An isolated GitHub Actions workflow runs helper unit tests for this prototype. Passing those tests checks arithmetic helpers only; it does not establish agreement with TTD's calendar.
+
+
+### Dependency licence check
+
+The Skyfield project LICENSE file identifies the library as MIT-licensed and permits use, modification and distribution subject to retaining its copyright and permission notice. Source reviewed: https://github.com/skyfielders/python-skyfield/blob/master/LICENSE
+
+This means the Python library itself does not require a paid subscription. The JPL ephemeris data file is a separate input and must have its own source/provenance recorded; the project does not bundle or redistribute it at this stage.
