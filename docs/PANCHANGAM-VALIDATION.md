@@ -48,3 +48,23 @@ No Panchangam values are enabled in the production snapshot until:
 - missing or failed calculations remain explicitly unavailable rather than guessed.
 
 After those gates pass, open a separate pull request for review. Do not merge or deploy automatically.
+
+
+## Review of the supplied TTD 2027 PDF
+
+The uploaded file was reopened and inspected as page images (12 pages; scanned Telugu calendar, not a text-native PDF).
+
+Confirmed from the January 2027 page:
+- The page is headed as the January 2027 calendar and contains day-by-day calendar cells.
+- The printed footer explicitly states in Telugu that the Tithi and Nakshatra entries indicate their ending times (అంత్య సమయము).
+- The footer also explains the dawn-to-dawn convention for the weekday marker, including the period before the following sunrise. This convention must be represented explicitly when matching a civil date to a TTD calendar day.
+- The calendar credits its Panchanga compiler and identifies TTD as publisher/printer.
+
+Validation consequence:
+- A comparison must compare transition/end times, not merely the Tithi or Nakshatra label at local midnight.
+- The TTD dawn-based weekday/day convention must be modelled before declaring a date-level match.
+- The source is image-scanned. OCR of the small Telugu cells is error-prone; every reference value used in tests must be visually transcribed and independently checked. Unreviewed OCR is not acceptable as a golden test fixture.
+
+## Current implementation decision
+
+No astronomical calculation code or new dependency has been added yet. The existing runtime feed remains marked unavailable. This is intentional: the PDF's printed convention has now been identified, but a verified, machine-readable set of date/time reference points and an acceptable permissive-licensed ephemeris stack are still required before a calculation can be called validated.
