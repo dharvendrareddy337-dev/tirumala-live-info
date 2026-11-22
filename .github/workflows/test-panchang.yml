@@ -1,0 +1,30 @@
+name: Test experimental Panchangam calculations
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/panchang.py'
+      - 'scripts/test_panchang.py'
+      - 'scripts/requirements-panchang.txt'
+      - '.github/workflows/test-panchang.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test-panchang:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated Panchangam dependency
+        run: pip install -r scripts/requirements-panchang.txt
+      - name: Run Panchangam helper tests
+        working-directory: scripts
+        run: python -m unittest test_panchang -v
